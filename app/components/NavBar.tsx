@@ -2,93 +2,98 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
+
+const navLinks = [
+  { name: "Artistas", href: "/pages/artistas" },
+  { name: "Obras", href: "/pages/obras" },
+  { name: "Sobre", href: "/pages/sobre" },
+];
 
 const NavBar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const pathname = usePathname();
 
   const toggleNavBar = () => {
     setIsOpen(!isOpen);
   };
 
   return (
-    <nav className="py-5 px-12">
+    <nav className="p-8">
       <div className="flex items-center justify-between">
         <div className="flex items-center">
-          <li className="list-none">
-            <Link href="/pages/home">
+          <Link href="/pages/home">
+            <li className="list-none">
               <span className="text-primary text-3xl font-bold">Indaia</span>
               <span className="text-secondary text-3xl font-bold">Cult</span>
-            </Link>
-          </li>
+            </li>
+          </Link>
         </div>
 
         <div className="flex items-center">
           <div
-            className={`hidden md:flex space-x-8 items-center ${
+            className={`hidden md:flex space-x-16 items-center ${
               isOpen ? "block" : "hidden"
             }`}
           >
-            <Link href="/pages/artistas" className="text-secondary text-lg">
-              Artistas
-            </Link>
-            <Link href="/pages/obras" className="text-secondary text-lg">
-              Obras
-            </Link>
-            <Link href="/pages/sobre" className="text-secondary text-lg">
-              Sobre
-            </Link>
+            {navLinks.map((link) => {
+              const isActive = pathname.startsWith(link.href);
+              return (
+                <Link
+                  href={link.href}
+                  key={link.name}
+                  className={
+                    isActive
+                      ? "text-secondary font-extrabold text-lg relative after:bg-primary after:absolute after:h-1 after:w-0 after:bottom-0 after:left-0 hover:after:w-full after:transition-all after:duration-300 cursor-pointer"
+                      : "text-secondary font-medium text-lg relative after:bg-primary after:absolute after:h-1 after:w-0 after:bottom-0 after:left-0 hover:after:w-full after:transition-all after:duration-300 cursor-pointer"
+                  }
+                >
+                  {link.name}
+                </Link>
+              );
+            })}
           </div>
 
           <button
             onClick={toggleNavBar}
-            className="text-black focus:outline-none block md:hidden focus:text-black"
+            className="text-secondary focus:outline-none block md:hidden focus:text-black"
           >
             {isOpen ? (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
+              ""
             ) : (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6 hover:bg- rounded-xl"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-                />
-              </svg>
+              <Image src="/menu.svg" alt="icon" width="24" height="26" />
             )}
           </button>
         </div>
       </div>
       {isOpen && (
-        <div className="mt-4">
-          <div className="flex flex-col space-y-2">
-            <Link href="/pages/artistas" className="text-secondary text-xl">
-              Artistas
-            </Link>
-            <Link href="/pages/obras" className="text-secondary text-xl">
-              Obras
-            </Link>
-            <Link href="/pages/sobre" className="text-secondary text-xl">
-              Sobre
-            </Link>
+        <div
+          className={`bg-gray-200 fixed top-0 right-0 w-44 h-full ${
+            isOpen ? "trasnlate-x-0" : "translate-x-full"
+          } ease-in-out duration-300`}
+        >
+          <button className="fixed top-4 right-4" onClick={toggleNavBar}>
+            <Image src="/close.svg" alt="fechar" width="24" height="26" />
+          </button>
+          <div className="p-5 flex flex-col mt-7 space-y-5 text-secondary text-xl ">
+            {navLinks.map((link) => {
+              const isActive = pathname.startsWith(link.href);
+              return (
+                <Link
+                  href={link.href}
+                  key={link.name}
+                  className={
+                    isActive
+                      ? "text-secondary font-extrabold text-lg "
+                      : "text-secondary font-medium text-lg "
+                  }
+                >
+                  {link.name}
+                </Link>
+              );
+            })}
           </div>
         </div>
       )}
