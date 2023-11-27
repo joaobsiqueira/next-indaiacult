@@ -21,13 +21,13 @@ const NavBar: React.FC = () => {
   };
 
   return (
-    <nav className="p-8">
+    <nav className="p-6 ">
       <div className="flex items-center justify-between">
         <div className="flex items-center">
-          <Link href="/pages/home">
+          <Link href="/">
             <li className="list-none">
               <span className="text-primary text-3xl font-bold">Indaia</span>
-              <span className="text-secondary text-3xl font-bold">Cult</span>
+              <span className="text-secondary text-3xl font-bold">Cult.</span>
             </li>
           </Link>
         </div>
@@ -70,7 +70,7 @@ const NavBar: React.FC = () => {
       </div>
       {isOpen && (
         <div
-          className={`bg-gray-200 fixed top-0 right-0 w-44 h-full ${
+          className={`bg-gray-200 bg-opacity-90 z-50 fixed top-0 right-0 w-44 h-full ${
             isOpen ? "trasnlate-x-0" : "translate-x-full"
           } ease-in-out duration-300`}
         >

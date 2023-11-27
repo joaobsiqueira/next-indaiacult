@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import { Montserrat } from "next/font/google";
 
 const config: Config = {
   content: [
@@ -6,8 +7,19 @@ const config: Config = {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+
   theme: {
     extend: {
+      screens: {
+        sm: "576px",
+        // => @media (min-width: 576px)
+
+        md: "960px",
+        // => @media (min-width: 960px)
+
+        lg: "1440px",
+        // => @media (min-width: 1440px)
+      },
       colors: {
         primary: "#F87060",
         secondary: "#3E8989",
@@ -20,6 +32,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/typography")],
 };
 export default config;
